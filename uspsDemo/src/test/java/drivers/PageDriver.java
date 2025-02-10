@@ -1,27 +1,29 @@
 package drivers;
 import org.openqa.selenium.WebDriver;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PageDriver {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-
-    // No instance variable needed
-    // No private constructor needed (can use default)
+    private static final List<WebDriver> driverPool = new ArrayList<>();
 
     public static WebDriver getDriver() {
         return driver.get();
     }
 
-    public static synchronized void setDriver(WebDriver webDriver) { // Added synchronized keyword
+    public static synchronized void setDriver(WebDriver webDriver) {
         driver.set(webDriver);
+        driverPool.add(webDriver);
     }
 
-    public static void quitDriver() {
-        WebDriver currentDriver = driver.get();
-        if (currentDriver != null) {
-            currentDriver.quit();
-            driver.remove(); // Important: Remove from ThreadLocal
+    public static void quitAllDrivers() {
+        for (WebDriver driver : driverPool) {
+            if (driver != null) {
+                driver.quit();
+            }
         }
+        driverPool.clear();
     }
 }
 

@@ -10,13 +10,11 @@ import pages.P001_LoginPage;
 public class LoginTest extends BaseDriver {
 
     @Test(dataProvider = "loginData", dataProviderClass = CredentialsDataProvider.class)
-    public void testLogin(String loginEmail, String loginPassword) {
+    public void testLogin(String loginEmail, String loginPassword) throws InterruptedException {
         WebDriver driver = PageDriver.getDriver(); // Get the driver from PageDriver (ThreadLocal)
-        driver.get(urlName); // Use the retrieved driver
+        driver.get(defaultUrl);
 
         P001_LoginPage loginPage = new P001_LoginPage(driver); // Pass the driver to the page object's constructor
         loginPage.fillLoginDetails(loginEmail, loginPassword);
-
-
     }
 }

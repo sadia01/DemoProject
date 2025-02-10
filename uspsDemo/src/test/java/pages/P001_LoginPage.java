@@ -16,8 +16,6 @@ public class P001_LoginPage extends CommonMethods {
         PageFactory.initElements(driver, this); // Initialize PageFactory with the correct driver
     }
 
-    // ... (rest of your element locators and methods remain the same)
-
     @FindAll({
             @FindBy(id = "login_email"),
             @FindBy(xpath = "//input[@id='login_email']")
@@ -36,10 +34,10 @@ public class P001_LoginPage extends CommonMethods {
     })
     WebElement loginButton;
 
-    public void fillLoginDetails(String loginEmail, String loginPassword) {
+    public void fillLoginDetails(String loginEmail, String loginPassword) throws InterruptedException {
         sendText(userEmailInput, loginEmail);
         sendText(userPasswordInput, loginPassword);
         hoverClickElement(loginButton);
-        timeOut();
+        Thread.sleep(5000);
     }
 }

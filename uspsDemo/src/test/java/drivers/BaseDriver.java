@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.FileInputStream;
@@ -21,7 +22,7 @@ public class BaseDriver {
     protected static String defaultUrl = "https://www.tutorialspoint.com/selenium/practice/login.php"; // Default URL
 
     @BeforeMethod
-    public void setUp() throws IOException { // Corrected method name to setUp (convention)
+    public void setUp() throws IOException {
         prop = new Properties();
         FileInputStream fis = new FileInputStream(System.getProperty("user.dir")
                 + "\\src\\test\\java\\data\\GlobalData.properties");
@@ -53,11 +54,11 @@ public class BaseDriver {
         driver.manage().window().maximize();
 
         PageDriver.setDriver(driver); // Set in ThreadLocal
-
     }
 
-    @AfterMethod
-    public void tearDown() { // Removed static keyword
-        PageDriver.quitDriver(); // Use PageDriver to quit and clear ThreadLocal
+    @AfterSuite(alwaysRun = true)
+    public void tearDown() {
+        System.out.println("AfterSuite: Quitting all drivers");
+        PageDriver.quitAllDrivers(); // Use PageDriver to quit and clear all drivers
     }
 }
